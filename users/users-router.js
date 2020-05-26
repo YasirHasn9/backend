@@ -9,4 +9,13 @@ router.get("/", async (req, res, next) => {
     next(err);
   }
 });
+
+router.post("/", async (req, res, next) => {
+  try {
+    const user = await Users.add(req.body);
+    res.status(201).json(user);
+  } catch (err) {
+    next(err);
+  }
+});
 module.exports = router;
