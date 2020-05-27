@@ -10,7 +10,7 @@ module.exports = {
 };
 
 function find() {
-  return db("songs")
+  return db("songs");
 }
 
 function findSongById(id) {

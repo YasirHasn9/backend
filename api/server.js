@@ -21,4 +21,7 @@ server.get("/api", (req, res) => {
   res.json({ message: "Up" });
 });
 
+server.use((err, req, res, next) => {
+  res.status(500).json({ message: "Something went wrong" });
+});
 module.exports = server;
