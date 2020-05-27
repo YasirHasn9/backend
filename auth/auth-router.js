@@ -23,4 +23,20 @@ router.post("/register", checkUser(), async (req, res, next) => {
   }
 });
 
+router.post("/login", async (req, res, next) => {
+  const authError = {
+    message: "Invalid Credentials"
+  };
+  try {
+    const user = await Users.findBy({ username: req.body.username });
+    if (user && bcrypt.compareSync(req.body.password, user.password)) {
+      res.status(200).json({ message: `welcome ${user.username}` });
+    } else {
+      res.status(401).json(authError);
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;
