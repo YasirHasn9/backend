@@ -1,11 +1,9 @@
 const router = require("express").Router();
 const Users = require("./users-models");
 const { validateUser } = require("../middleware/validateUser");
-const { restrictedAuth } = require("../middleware/restrictedAuth");
 const { validateUserId } = require("../middleware/validateUserId");
 
-const db = require("../db/db-config");
-router.get("/", restrictedAuth(), async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const users = await Users.find();
     res.json(users);
@@ -34,7 +32,7 @@ router.put("/:id", validateUserId(), async (req, res) => {
 
 router.delete("/:id", validateUserId(), async (req, res, next) => {
   await Users.remove(req.params.id);
-  res.status(200).end();
+  res.status(200).json({ removed: req.params.id });
 });
 
 router.get("/:id/songs", validateUserId(), async (req, res, next) => {

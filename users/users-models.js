@@ -16,7 +16,7 @@ function find() {
 async function add(user) {
   try {
     const [id] = await db("users").insert(user);
-    return findByUserId(id);
+    return findByUserId(id).select("username");
   } catch (err) {
     console.log("users : models: add", add);
     throw err;

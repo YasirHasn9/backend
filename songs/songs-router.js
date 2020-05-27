@@ -24,7 +24,6 @@ router.get("/:id", validateSongId(), async (req, res) => {
   await res.json(req.song);
 });
 
-
 router.put("/:id", validateSong(), validateSongId(), async (req, res, next) => {
   try {
     const song = await Songs.update(req.params.id, req.body);
@@ -35,7 +34,7 @@ router.put("/:id", validateSong(), validateSongId(), async (req, res, next) => {
 });
 router.delete("/:id", validateSongId(), async (req, res, next) => {
   await Songs.remove(req.params.id);
-  res.status(200).end();
+  res.status(200).json({ removed: req.params.id });
 });
 
 module.exports = router;
