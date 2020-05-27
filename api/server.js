@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const server = express();
 
 const userRouter = require("../users/users-router");
+const songsRouter = require("../songs/songs-router");
 const authRouter = require("../auth/auth-router");
 
 server.use(express.json());
@@ -15,6 +16,7 @@ server.use(cookieParser());
 
 server.use("/api/users", userRouter);
 server.use("/api/auth", authRouter);
+server.use("/api/songs", songsRouter);
 server.get("/api", (req, res) => {
   res.json({ message: "Up" });
 });

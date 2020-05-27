@@ -1,9 +1,9 @@
 const Users = require("../users/users-models");
 
 module.exports = {
-  checkUser
+  validateUser
 };
-function checkUser() {
+function validateUser() {
   return async (req, res, next) => {
     try {
       if (!req.body.username || !req.body.password) {

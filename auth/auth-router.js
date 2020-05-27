@@ -2,9 +2,9 @@ const router = require("express").Router();
 const Users = require("../users/users-models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { checkUser } = require("../middleware/checkUser");
+const { validateUser } = require("../middleware/validateUser");
 
-router.post("/register", checkUser(), async (req, res, next) => {
+router.post("/register", validateUser(), async (req, res, next) => {
   const authError = {
     message: "Invalid Credentials"
   };

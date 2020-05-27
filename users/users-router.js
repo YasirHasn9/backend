@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const Users = require("./users-models");
-const { checkUser } = require("../middleware/checkUser");
+const { validateUser } = require("../middleware/validateUser");
 const { restrictedAuth } = require("../middleware/restrictedAuth");
+const { validateUserId } = require("../middleware/validateUserId");
 router.get("/", restrictedAuth(), async (req, res, next) => {
   try {
     const users = await Users.find();
@@ -11,7 +12,7 @@ router.get("/", restrictedAuth(), async (req, res, next) => {
   }
 });
 
-router.post("/", checkUser(), async (req, res, next) => {
+router.post("/", validateUser(), async (req, res, next) => {
   try {
     const user = await Users.add(req.body);
     res.status(201).json(user);
@@ -20,39 +21,17 @@ router.post("/", checkUser(), async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
-  try {
-    const user = await Users.findByUserId(req.params.id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.status(200).json(user);
-  } catch (err) {
-    next(err);
-  }
+router.get("/:id", validateUserId(), async (req, res, next) => {
+  await res.json(req.user);
 });
 
-router.put("/:id", async (req, res, next) => {
-  try {
-    const user = await Users.update(req.params.id, req.body);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.status(200).json(user);
-  } catch (err) {
-    next(err);
-  }
+router.put("/:id", validateUserId(), async (req, res, next) => {
+  const user = await Users.update(req.params.id, req.body);
+  res.status(200).json(user);
 });
 
-router.delete("/:id", async (req, res, next) => {
-  try {
-    const user = await Users.remove(req.params.id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.status(200).end();
-  } catch (err) {
-    next(err);
-  }
+router.delete("/:id", validateUserId(), async (req, res, next) => {
+  const user = await Users.remove(req.params.id);
+  res.status(200).end();
 });
 module.exports = router;

@@ -14,10 +14,3 @@ exports.seed = async function(knex) {
     }
   ]);
 };
-
-// song
-//   .string("song_by")
-//   .notNullable()
-//   .unique();
-// song.integer("released_year");
-// song.boolean("favorite").defaultTo(false);
