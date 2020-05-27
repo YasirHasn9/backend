@@ -17,7 +17,6 @@ function validateUser() {
       }
       next();
     } catch (err) {
-      console.log("****", err);
       next(err);
     }
   };
