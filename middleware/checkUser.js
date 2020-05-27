@@ -1,0 +1,24 @@
+const Users = require("../users/users-models");
+
+module.exports = {
+  checkUser
+};
+function checkUser() {
+  return async (req, res, next) => {
+    try {
+      if (!req.body.username || !req.body.password) {
+        return res
+          .status(401)
+          .json({ message: "Please provide both Username and password" });
+      }
+      const user = await Users.findBy({ username: req.body.username });
+      if (user) {
+        return res.status(401).json({ message: "user already there" });
+      }
+      next();
+    } catch (err) {
+      console.log("****", err);
+      next(err);
+    }
+  };
+}

@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Users = require("./users-models");
+const { checkUser } = require("../middleware/checkUser");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -10,7 +11,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", checkUser(), async (req, res, next) => {
   try {
     const user = await Users.add(req.body);
     res.status(201).json(user);
