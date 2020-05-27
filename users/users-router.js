@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const Users = require("./users-models");
 const { checkUser } = require("../middleware/checkUser");
-
-router.get("/", async (req, res, next) => {
+const { restrictedAuth } = require("../middleware/restrictedAuth");
+router.get("/", restrictedAuth(), async (req, res, next) => {
   try {
     const users = await Users.find();
     res.json(users);
