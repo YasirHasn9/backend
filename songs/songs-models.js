@@ -15,7 +15,7 @@ module.exports = {
 };
 
 function find() {
-  return db("songs").where({ favorite: false });
+  return db("songs").where({ favorite: true });
 }
 
 function findSongById(id) {

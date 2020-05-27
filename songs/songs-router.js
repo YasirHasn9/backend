@@ -24,6 +24,7 @@ router.get("/:id", validateSongId(), async (req, res) => {
   await res.json(req.song);
 });
 
+
 router.put("/:id", validateSong(), validateSongId(), async (req, res, next) => {
   try {
     const song = await Songs.update(req.params.id, req.body);

@@ -3,6 +3,8 @@ const Users = require("./users-models");
 const { validateUser } = require("../middleware/validateUser");
 const { restrictedAuth } = require("../middleware/restrictedAuth");
 const { validateUserId } = require("../middleware/validateUserId");
+
+const db = require("../db/db-config");
 router.get("/", restrictedAuth(), async (req, res, next) => {
   try {
     const users = await Users.find();
@@ -33,5 +35,14 @@ router.put("/:id", validateUserId(), async (req, res) => {
 router.delete("/:id", validateUserId(), async (req, res, next) => {
   await Users.remove(req.params.id);
   res.status(200).end();
+});
+
+router.get("/:id/songs",validateUserId(), async (req, res, next) => {
+  try {
+    const songs = await Users.getUserSong(req.params.id);
+    res.json(songs);
+  } catch (err) {
+    next(err);
+  }
 });
 module.exports = router;
