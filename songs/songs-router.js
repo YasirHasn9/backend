@@ -29,5 +29,9 @@ router.post("/", validateSong(), async (req, res, next) => {
 router.get("/:id", validateSongId(), async (req, res, next) => {
   await res.json(req.song);
 });
+router.delete("/:id", validateSongId(), async (req, res, next) => {
+  await Songs.remove(req.params.id);
+  res.status(200).end();
+});
 
 module.exports = router;

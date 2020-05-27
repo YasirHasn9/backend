@@ -31,7 +31,7 @@ router.put("/:id", validateUserId(), async (req, res, next) => {
 });
 
 router.delete("/:id", validateUserId(), async (req, res, next) => {
-  const user = await Users.remove(req.params.id);
+  await Users.remove(req.params.id);
   res.status(200).end();
 });
 module.exports = router;
