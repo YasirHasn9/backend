@@ -10,7 +10,7 @@ module.exports = {
   getUserSong
 };
 function find() {
-  return db("users");
+  return db("users").select("id", "username");
 }
 
 async function add(user) {
@@ -31,7 +31,8 @@ function findBy(filter) {
 function findByUserId(id) {
   return db("users")
     .where({ id })
-    .first();
+    .first()
+    .select("id", "username");
 }
 
 function remove(id) {
@@ -45,7 +46,7 @@ async function update(id, change) {
     await db("users")
       .where({ id })
       .update(change);
-    return findBy({ id });
+    return findBy({ id }).select("id", "username");
   } catch (err) {
     console.log(err);
     throw err;
