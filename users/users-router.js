@@ -21,11 +21,11 @@ router.post("/", validateUser(), async (req, res, next) => {
   }
 });
 
-router.get("/:id", validateUserId(), async (req, res, next) => {
+router.get("/:id", validateUserId(), async (req, res) => {
   await res.json(req.user);
 });
 
-router.put("/:id", validateUserId(), async (req, res, next) => {
+router.put("/:id", validateUserId(), async (req, res) => {
   const user = await Users.update(req.params.id, req.body);
   res.status(200).json(user);
 });

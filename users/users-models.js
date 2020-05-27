@@ -42,7 +42,7 @@ function remove(id) {
 
 async function update(id, change) {
   try {
-    const user = await db("users")
+    await db("users")
       .where({ id })
       .update(change);
     return findBy({ id });

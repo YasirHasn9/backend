@@ -5,15 +5,16 @@ module.exports = {
 };
 function validateSong() {
   return async (req, res, next) => {
+    const { title, song_by } = req.body;
     try {
-      if (!req.body.title || !req.body.song_by) {
+      if (!title || !song_by) {
         return res
           .status(401)
           .json({ message: "Please provide both title and song_by" });
       }
-      const user = await Songs.findBy({ title: req.body.title });
-      if (user) {
-        return res.status(401).json({ message: "Song already there" });
+      const song = await Songs.findBy({ title });
+      if (song) {
+        return res.status(401).json({ message: "Song already been released" });
       }
       next();
     } catch (err) {

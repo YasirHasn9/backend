@@ -5,10 +5,8 @@ module.exports = {
   findSongById,
   add,
   findBy,
-  remove
-
-  //   remove,
-  //   update,
+  remove,
+  update
   //   getComments,
   //   addComment,
   //   removeComment,
@@ -36,11 +34,25 @@ async function add(song) {
 }
 
 function findBy(filter) {
-  return db("songs").where(filter);
+  return db("songs")
+    .where(filter)
+    .first();
 }
 
 function remove(id) {
   return db("songs")
     .where({ id })
     .del();
+}
+
+async function update(id, change) {
+  try {
+    await db("songs")
+      .where({ id })
+      .update(change);
+    return findBy({ id });
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
 }
