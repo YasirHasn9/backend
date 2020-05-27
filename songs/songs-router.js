@@ -20,8 +20,17 @@ router.post("/", validateSong(), async (req, res, next) => {
     next(err);
   }
 });
-router.get("/:id", validateSongId(), async (req, res, next) => {
+router.get("/:id", validateSongId(), async (req, res) => {
   await res.json(req.song);
+});
+
+router.put("/:id", validateSong(), validateSongId(), async (req, res, next) => {
+  try {
+    const song = await Songs.update(req.params.id, req.body);
+    res.json(song);
+  } catch (err) {
+    next(err);
+  }
 });
 router.delete("/:id", validateSongId(), async (req, res, next) => {
   await Songs.remove(req.params.id);
