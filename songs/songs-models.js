@@ -7,11 +7,6 @@ module.exports = {
   findBy,
   remove,
   update
-  //   getComments,
-  //   addComment,
-  //   removeComment,
-  //   getCommentById,
-  //   getPendingStories,
 };
 
 function find() {
