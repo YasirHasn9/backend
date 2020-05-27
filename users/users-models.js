@@ -9,7 +9,6 @@ module.exports = {
   update,
   getUserSong
 };
-
 function find() {
   return db("users");
 }
@@ -57,19 +56,13 @@ async function getUserSong(user_id) {
   return db("user_song as us")
     .join("users as u", "u.id", "us.song_id")
     .join("songs as s", "s.id", "us.song_id")
-    .where("u.id", user_id);
+    .where("u.id", user_id)
+    .select(
+      "u.id",
+      "u.username",
+      "s.title",
+      "s.song_by",
+      "s.released_year",
+      "s.favorite"
+    );
 }
-
-// async function addSong(user_id, song) {
-//   try {
-//     const [id] = await db("user_song as us")
-//       .join("users as u", "u.id", "us.song_id")
-//       .join("songs as s", "s.id", "us.song_id")
-//       .where("u.id", user_id)
-//       .insert(song);
-      
-//   } catch (err) {
-//     console.log("addsong", err);
-//     throw err;
-//   }
-// }

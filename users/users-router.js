@@ -5,14 +5,17 @@ const { restrictedAuth } = require("../middleware/restrictedAuth");
 const { validateUserId } = require("../middleware/validateUserId");
 
 const db = require("../db/db-config");
-router.get("/", restrictedAuth(), async (req, res, next) => {
-  try {
-    const users = await Users.find();
-    res.json(users);
-  } catch (err) {
-    next(err);
+router.get(
+  "/",
+  /*restrictedAuth(),*/ async (req, res, next) => {
+    try {
+      const users = await Users.find();
+      res.json(users);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 router.post("/", validateUser(), async (req, res, next) => {
   try {
@@ -37,7 +40,7 @@ router.delete("/:id", validateUserId(), async (req, res, next) => {
   res.status(200).end();
 });
 
-router.get("/:id/songs",validateUserId(), async (req, res, next) => {
+router.get("/:id/songs", validateUserId(), async (req, res, next) => {
   try {
     const songs = await Users.getUserSong(req.params.id);
     res.json(songs);
