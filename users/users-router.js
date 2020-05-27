@@ -31,4 +31,16 @@ router.get("/:id", async (req, res, next) => {
     next(err);
   }
 });
+
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const user = await Users.remove(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).end();
+  } catch (err) {
+    next(err);
+  }
+});
 module.exports = router;

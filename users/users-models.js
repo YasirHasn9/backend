@@ -38,3 +38,4 @@ function remove(id) {
     .where({ id })
     .del();
 }
+
