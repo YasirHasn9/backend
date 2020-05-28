@@ -4,31 +4,6 @@ const { validateUser } = require("../middleware/validateUser");
 const { validateUserId } = require("../middleware/validateUserId");
 const { restrictedAuth } = require("../middleware/restrictedAuth");
 
-// function testUser(req, res, next) {
-//   const token = req.headers.authorization;
-
-//   if (token) {
-//     jwt.verify(
-//       token,
-//       process.env.TOKEN_SECRET || "it's just a secret",
-//       (err, decodedToken) => {
-//         if (err) {
-//           console.log(err);
-//           res.status(401).json({
-//             message: "not verified"
-//           });
-//         } else {
-//           req.decodedToken = decodedToken;
-//           next();
-//         }
-//       }
-//     );
-//   } else {
-//     res.status(400).json({
-//       message: "no token provided"
-//     });
-//   }
-// }
 router.get("/", restrictedAuth(), async (req, res, next) => {
   console.log("decoded", req.decodedToken);
   try {

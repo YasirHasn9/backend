@@ -18,7 +18,6 @@ function validateSong() {
       }
       next();
     } catch (err) {
-      console.log("validateSong", err);
       next(err);
     }
   };

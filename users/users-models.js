@@ -18,7 +18,6 @@ async function add(user) {
     const [id] = await db("users").insert(user);
     return findByUserId(id).select("username");
   } catch (err) {
-    console.log("users : models: add", add);
     throw err;
   }
 }
@@ -48,7 +47,6 @@ async function update(id, change) {
       .update(change);
     return findBy({ id }).select("id", "username");
   } catch (err) {
-    console.log(err);
     throw err;
   }
 }

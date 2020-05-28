@@ -14,7 +14,6 @@ function validateUserId() {
         });
       }
     } catch (err) {
-      console.log(err);
       next(err);
     }
   };
