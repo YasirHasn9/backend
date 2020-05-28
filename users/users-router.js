@@ -2,8 +2,7 @@ const router = require("express").Router();
 const Users = require("./users-models");
 const { validateUser } = require("../middleware/validateUser");
 const { validateUserId } = require("../middleware/validateUserId");
-const jwt = require("jsonwebtoken");
-
+const { restrictedAuth } = require("../middleware/restrictedAuth");
 
 // function testUser(req, res, next) {
 //   const token = req.headers.authorization;
@@ -30,7 +29,7 @@ const jwt = require("jsonwebtoken");
 //     });
 //   }
 // }
-router.get("/", async (req, res, next) => {
+router.get("/", restrictedAuth(), async (req, res, next) => {
   console.log("decoded", req.decodedToken);
   try {
     const users = await Users.find();

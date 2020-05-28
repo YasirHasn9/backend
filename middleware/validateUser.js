@@ -13,7 +13,7 @@ function validateUser() {
       } else {
         const user = await Users.findBy({ username: req.body.username });
         if (user) {
-          return res.status(401).json({ message: "user already there" });
+          return res.status(409).json({ message: "user already there" });
         }
       }
 
