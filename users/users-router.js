@@ -4,6 +4,7 @@ const { validateUser } = require("../middleware/validateUser");
 const { validateUserId } = require("../middleware/validateUserId");
 const jwt = require("jsonwebtoken");
 
+
 function testUser(req, res, next) {
   const token = req.headers.authorization;
 

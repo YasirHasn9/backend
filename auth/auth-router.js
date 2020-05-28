@@ -3,26 +3,45 @@ const Users = require("../users/users-models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { validateUser } = require("../middleware/validateUser");
+const { check, validationResult } = require("express-validator");
 
-router.post("/register", validateUser(), (req, res) => {
-  let user = req.body;
-  const rounds = process.env.HASH_PASSWORD_ROUNDS || 12;
-  user.password = bcrypt.hashSync(user.password, rounds);
-
-  Users.add(user)
-    .then(saved => {
-      //jwt should be generated
-      const token = generateToken(saved);
-      res.status(201).json({
-        user: saved,
-        token
-      });
+router.post(
+  "/register",
+  validateUser(),
+  [
+    check("username", "Please Enter a Valid Username")
+      .not()
+      .isEmpty(),
+    check("password", "Please enter a min 6 characters Password").isLength({
+      min: 6
     })
-    .catch(error => {
-      console.log(error);
-      res.status(500).json(error);
-    });
-});
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array()
+      });
+    }
+    let user = req.body;
+    const rounds = process.env.HASH_PASSWORD_ROUNDS || 12;
+    user.password = bcrypt.hashSync(user.password, rounds);
+
+    Users.add(user)
+      .then(saved => {
+        //jwt should be generated
+        const token = generateToken(saved);
+        res.status(201).json({
+          user: saved,
+          token
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).json(error);
+      });
+  }
+);
 
 router.post("/login", (req, res) => {
   let { username, password } = req.body;

@@ -25,8 +25,7 @@ server.get("/api", (req, res) => {
 server.use((err, req, res, next) => {
   console.log(err);
   res.status(500).json({
-    message: "Bad mistake, Engineer!",
-    err
+    message: "Bad mistake, Engineer!"
   });
 });
 module.exports = server;

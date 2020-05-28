@@ -4,6 +4,7 @@ const { validateSong } = require("../middleware/validateSong");
 const { validateSongId } = require("../middleware/validateSongId");
 
 router.get("/", async (req, res, next) => {
+  console.log("req", req.decodedToken);
   try {
     const songs = await Songs.find();
     res.json(songs);
