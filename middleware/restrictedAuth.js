@@ -1,6 +1,34 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = { restrictedAuth };
+
+function restrictedAuth() {
+  const authError = {
+    message: "Invalid Credentials"
+  };
+  return async (req, res, next) => {
+    try {
+      // const token = req.headers.authorization;
+      const { token } = req.cookies;
+      console.log("this is cookies", req.cookies);
+      if (!token) {
+        return res.status(401).json(authError);
+      }
+      jwt.verify(token, process.env.SECRET_TOKEN, (err, decoded) => {
+        if (err) {
+          return res.status(401).json(authError);
+        }
+        req.token = decoded;
+        console.log(decoded);
+        next();
+      });
+    } catch (err) {
+      console.log("restrictedAuth", err);
+      next(err);
+    }
+  };
+}
+
 // (req, res, next) => {
 //   const token = req.headers.authorization;
 
@@ -55,29 +83,3 @@ module.exports = { restrictedAuth };
 //     }
 //   };
 // }
-
-function restrictedAuth() {
-  const authError = {
-    message: "Invalid Credentials"
-  };
-  return async (req, res, next) => {
-    try {
-      const token = req.headers.authorization;
-      console.log("this is cookies", req.cookies);
-      if (!token) {
-        return res.status(401).json(authError);
-      }
-      jwt.verify(token, process.env.SECRET_TOKEN, (err, decoded) => {
-        if (err) {
-          return res.status(401).json(authError);
-        }
-        req.token = decoded;
-        console.log(decoded);
-        next();
-      });
-    } catch (err) {
-      console.log("restrictedAuth", err);
-      next(err);
-    }
-  };
-}
