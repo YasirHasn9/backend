@@ -6,7 +6,10 @@
   "scripts": {
     "server": "nodemon index.js",
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watchAll"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "repository": {
     "type": "git",
@@ -33,6 +36,9 @@
     "sqlite3": "^4.2.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "cross-env": "^7.0.2",
+    "jest": "^26.0.1",
+    "nodemon": "^2.0.4",
+    "supertest": "^4.0.2"
   }
 }

@@ -5,12 +5,13 @@ Database, server/api, authentication, testing
 
 Deployed at
 https://bw-spotify-songs.herokuapp.com/
+https://bw-spotify-songs.herokuapp.com/api/users
 
 Project title
 Spotify Songs
 
 Motivation
-The app helps share users to pick up their favorites songs , and connects them to other songs based on their taste in the music using machine learning. It provides different music from the all over the world. The ultimate goal is to enables listeners picking up their songs so easy.
+The app helps share users to  pick up their favorites songs , and connects them to other songs based on their taste in the music using machine learning. It provides different music from the all over the world. The ultimate goal is to enables listeners picking up their songs so easy.
 
 Built with
 Node.js

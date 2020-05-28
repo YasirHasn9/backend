@@ -2,8 +2,35 @@ const router = require("express").Router();
 const Users = require("./users-models");
 const { validateUser } = require("../middleware/validateUser");
 const { validateUserId } = require("../middleware/validateUserId");
+const jwt = require("jsonwebtoken");
 
-router.get("/", async (req, res, next) => {
+function testUser(req, res, next) {
+  const token = req.headers.authorization;
+
+  if (token) {
+    jwt.verify(
+      token,
+      process.env.TOKEN_SECRET || "it's just a secret",
+      (err, decodedToken) => {
+        if (err) {
+          console.log(err);
+          res.status(401).json({
+            message: "not verified"
+          });
+        } else {
+          req.decodedToken = decodedToken;
+          next();
+        }
+      }
+    );
+  } else {
+    res.status(400).json({
+      message: "no token provided"
+    });
+  }
+}
+router.get("/", testUser, async (req, res, next) => {
+  console.log("decoded", req.decodedToken);
   try {
     const users = await Users.find();
     res.json(users);
