@@ -17,7 +17,7 @@ function restrictedAuth() {
           return res.status(401).json(authError);
         }
         req.token = decoded;
-        console.log(decoded);
+        console.log("this is decoded",decoded);
         next();
       });
     } catch (err) {
