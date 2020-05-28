@@ -8,8 +8,7 @@ function restrictedAuth() {
   };
   return async (req, res, next) => {
     try {
-      // const token = req.headers.authorization;
-      const { token } = req.cookies;
+      const token = req.headers.authorization;
       console.log("this is cookies", req.cookies);
       if (!token) {
         return res.status(401).json(authError);
