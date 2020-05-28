@@ -33,7 +33,6 @@ router.post("/login", async (req, res, next) => {
     if (!user || !bcrypt.compareSync(req.body.password, user.password)) {
       return res.status(401).json(authError);
     }
-
     const payload = {
       id: user.id,
       username: user.username
