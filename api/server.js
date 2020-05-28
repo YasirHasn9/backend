@@ -16,11 +16,11 @@ server.use(cookieParser());
 
 server.use("/api/users", userRouter);
 server.use("/api/auth", authRouter);
-server.use("/api/songs", songsRouter);
+server.use("/api/songs", restrictedAuth(), songsRouter);
 server.get("/api", (req, res) => {
   res.json({ message: "Up" });
 });
-// restrictedAuth()
+//
 server.use((err, req, res, next) => {
   res.status(500).json({ message: "Something went wrong with the server" });
 });
