@@ -45,9 +45,9 @@ router.get("/:id/songs", validateUserId(), async (req, res, next) => {
     next(err);
   }
 });
-router.get("/:id/songs", validateUserId(), async (req, res, next) => {
+router.delete("/:id/songs", validateUserId(), async (req, res, next) => {
   try {
-    const songs = await Users.getUserSong(req.params.id);
+    const songs = await Users.deleteUserSong(req.params.id);
     res.json(songs);
   } catch (err) {
     next(err);

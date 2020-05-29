@@ -4,6 +4,8 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const server = express();
 
+const { restrictedAuth } = require("../middleware/restrictedAuth");
+
 const userRouter = require("../users/users-router");
 const songsRouter = require("../songs/songs-router");
 const authRouter = require("../auth/auth-router");
@@ -20,7 +22,7 @@ server.use(
 server.use(cookieParser());
 
 server.use("/api/auth", authRouter);
-server.use("/api/users", userRouter);
+server.use("/api/users", restrictedAuth(), userRouter);
 server.use("/api/songs", songsRouter);
 
 server.get("/api", (req, res) => {
@@ -30,7 +32,7 @@ server.get("/api", (req, res) => {
 server.use((err, req, res, next) => {
   console.log(err);
   res.status(500).json({
-    message: "Bad mistake, Engineer!"
+    message: "Bad mistake, Server!"
   });
 });
 module.exports = server;

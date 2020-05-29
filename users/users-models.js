@@ -7,7 +7,8 @@ module.exports = {
   findBy,
   remove,
   update,
-  getUserSong
+  getUserSong,
+  deleteUserSong
 };
 function find() {
   return db("users").select("id", "username");
@@ -25,7 +26,7 @@ async function add(user) {
 function findBy(filter) {
   return db("users")
     .where(filter)
-    .first()
+    .first();
 }
 function findByUserId(id) {
   return db("users")
@@ -40,7 +41,6 @@ function remove(id) {
     .del();
 }
 
-
 async function update(id, change) {
   try {
     await db("users")
@@ -50,6 +50,14 @@ async function update(id, change) {
   } catch (err) {
     throw err;
   }
+}
+
+function deleteUserSong(user_id) {
+  return db("user_song as us")
+    .join("users as u", "u.id", "us.song_id")
+    .join("songs as s", "s.id", "us.song_id")
+    .where({ user_id })
+    .del();
 }
 
 async function getUserSong(user_id) {

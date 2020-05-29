@@ -76,7 +76,11 @@ function generateToken(user) {
     expiresIn: "1d"
   };
 
-  return jwt.sign(payload, process.env.SECRET_TOKEN, options);
+  return jwt.sign(
+    payload,
+    process.env.SECRET_TOKEN || "it's just a secret",
+    options
+  );
 }
 
 module.exports = router;
