@@ -7,7 +7,6 @@ const { check, validationResult } = require("express-validator");
 
 router.post(
   "/register",
-  validateUser(),
   [
     check("username", "Please Enter a Valid Username")
       .not()
@@ -16,33 +15,23 @@ router.post(
       min: 6
     })
   ],
-  (req, res, next) => {
+  validateUser(),
+  async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
         errors: errors.array()
       });
     }
-    // try {
-    //   let credentials = req.body;
-    //   const rounds = process.env.HASH_ROUNDS || 12;
-    //   const hash = bcrypt.hashSync(credentials.password, rounds);
-    //   credentials.password = hash
-    //   const user = await Users.add(credentials);
-    //   res.status(201).json(user, credentials.password);
-    // } catch (err) {
-    //   next(err);
-    // }
     let user = req.body;
-    const rounds = process.env.HASH_ROUNDS || 12;
-    user.password = bcrypt.hashSync(user.password, rounds);
+    user.password = bcrypt.hashSync(user.password, 10);
 
     Users.add(user)
       .then(saved => {
         //jwt should be generated
         const token = generateToken(saved);
         res.status(201).json({
-          saved,
+          user: saved,
           token
         });
       })
@@ -63,7 +52,8 @@ router.post("/login", (req, res) => {
         const token = generateToken(user);
 
         res.status(200).json({
-          message: `Welcome ${user.username}!`,
+          id: user.id,
+          username: user.username,
           token
         });
       } else {
