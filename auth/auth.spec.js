@@ -9,17 +9,30 @@ beforeEach(async () => {
 });
 
 describe("Auth router", () => {
-  it("returns the created user from database", async () => {
-    const user = {
-      username: "Yasir",
-      password: "password"
-    };
+  const user = {
+    username: "Yasir",
+    password: "password"
+  };
+  it("returns the created user from database and 201 /register", async () => {
     const res = await request(server)
       .post("/api/auth/register")
       .send(user);
-    console.log("this is register ", res.body);
     expect(res.body.user.id).toBeDefined();
     expect(res.body.user.username).toBe("Yasir");
     expect(res.body.token).toBeDefined();
+    expect(res.statusCode).toBe(201);
+  });
+
+  describe("POST /login", () => {
+    it("should return 200", async () => {
+       await request(server)
+        .post("/api/auth/register")
+        .send(user)
+  
+        const login = await request(server).post("/api/auth/login").send(user)
+        expect(login.status).toBe(200);
+        expect(login.body.token).toBeDefined()
+
+    });
   });
 });
