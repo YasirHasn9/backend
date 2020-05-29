@@ -1,14 +1,13 @@
 const Songs = require("./songs-models");
 const db = require("../db/db-config");
 
-beforeEach(async () => {
-  await db("songs").truncate();
-});
+// beforeEach(async () => {
+//   await db("songs").truncate();
+// });
 describe("The Songs model", () => {
   it("list of songs", async () => {
     const res = await Songs.find();
-    console.log("this is song", res);
-    expect(res).toHaveLength(0);
+    expect(res.length).toBeGreaterThan(1);
   });
   it("list of songs", async () => {
     const data = { title: "hello", song_by: "adele" };
